@@ -17,6 +17,7 @@ include(cmake/Dependencies.cmake)
 
 add_library(solitaire2_backend STATIC
 	src/version.cpp
+    src/gamestate/gamedeck.cpp
 )
 add_library(solitaire2::backend ALIAS solitaire2_backend)
 
@@ -42,12 +43,18 @@ target_link_libraries(solitaire2_profile PRIVATE solitaire2::backend)
 
 if(SOLITAIRE2_BUILD_TESTS)
 	add_executable(test_version tests/cpp/test_version.cpp)
+    add_executable(test_cards tests/cpp/test_cards.cpp)
+    add_executable(test_gamedeck tests/cpp/test_gamedeck.cpp)
+
 	target_link_libraries(test_version PRIVATE solitaire2::backend Catch2::Catch2WithMain)
-	add_executable(test_cards tests/cpp/test_cards.cpp)
 	target_link_libraries(test_cards PRIVATE solitaire2::backend Catch2::Catch2WithMain)
+	target_link_libraries(test_gamedeck PRIVATE solitaire2::backend Catch2::Catch2WithMain)
+
 	include(Catch)
+
 	catch_discover_tests(test_version)
 	catch_discover_tests(test_cards)
+	catch_discover_tests(test_gamedeck)
 endif()
 
 if(SOLITAIRE2_BUILD_PYTHON)

@@ -1,6 +1,10 @@
 #ifndef SOLITAIRE2_CARDS_HPP
 #define SOLITAIRE2_CARDS_HPP
 
+#include <random>
+#include <stdexcept>
+#include <algorithm>
+
 namespace solitaire2 {
 /*
  * Card suit.
@@ -12,7 +16,7 @@ enum class Suit : uint8_t {
     Diamonds = 1,
     Clubs = 2,
     Spades = 3
-};
+}; // end enum class Suit
 /*
  * Card rank.
  * Aces are always low
@@ -33,7 +37,7 @@ enum class Rank : uint8_t {
     Jack = 11,
     Queen = 12,
     King = 13
-};
+}; //end enum class Rank
 
 /*
  * A basic card representation.
@@ -42,7 +46,7 @@ enum class Rank : uint8_t {
 */
 class BasicCard {
 public:
-    BasicCard() = default;
+    BasicCard() : suit_(Suit::Hearts), rank_(Rank::Undef) {}
     BasicCard(Suit suit, Rank rank) : suit_(suit), rank_(rank) {}
 
     Suit suit() const { return suit_; }
@@ -69,9 +73,10 @@ public:
         return is_red() != other.is_red() && static_cast<uint8_t>(rank_) + 1 == static_cast<uint8_t>(other.rank_);
     }
 private:
-    const Suit suit_;
-    const Rank rank_;
-};
+    Suit suit_;
+    Rank rank_;
+}; // end class BasicCard
+
 
 /*
  * Packed card representation --- fits entire card into a single uint8_t. 
@@ -84,7 +89,7 @@ private:
 */
 class PackedCard {
 public:
-    PackedCard() = default;
+    PackedCard() : data_(0) {}
     PackedCard(Suit suit, Rank rank) : data_((static_cast<uint8_t>(rank) << 2) | static_cast<uint8_t>(suit)) {}
 
     Suit suit() const noexcept { 
@@ -116,8 +121,59 @@ public:
     }
     
 private:
-    const uint8_t data_;
-};
-};
+    uint8_t data_;
+}; //end class PackedCard
+
+template <typename CardType>
+constexpr CardType invalid_card() {
+    return CardType(Suit::Hearts, Rank::Undef);
+}
+
+template <class CardType>
+class Deck {
+public:
+    Deck(){
+        initialize_deck();
+    };
+
+    void shuffle() noexcept {
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(cards_.begin(), cards_.end(), g);
+    }
+
+    CardType& pick(uint8_t index) {
+        if (index < cards_.size()) {
+            return cards_[index];
+        } else {
+            throw std::out_of_range("Index out of range in Deck::pick");
+        }
+    }
+
+    const CardType& pick(uint8_t index) const {
+        if (index < cards_.size()) {
+            return cards_[index];
+        } else {
+            throw std::out_of_range("Index out of range in Deck::pick");
+        }
+    }
+
+    auto begin() { return cards_.begin(); }
+    auto end() { return cards_.end(); }
+
+private:
+    std::array<CardType, 52> cards_;
+
+    void initialize_deck() noexcept {
+        uint8_t index = 0;
+        for (uint8_t suit = 0; suit < 4; ++suit) {
+            for (uint8_t rank = 1; rank <= 13; ++rank) {
+                cards_[index++] = CardType(static_cast<Suit>(suit), static_cast<Rank>(rank));
+            }
+        }
+    }
+}; // end class Deck
+
+}; // end namespace solitaire2
 
 #endif
