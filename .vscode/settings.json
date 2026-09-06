@@ -1,0 +1,32 @@
+{
+    "terminal.integrated.profiles.linux": {
+        "bash (dev)" : {
+            "path" : "/bin/bash",
+            "icon" : "terminal-bash",
+            "args" : [
+                "--rcfile",
+                "/home/simon/solitaire2/.vscode/shell_startup.sh",
+                "-i"
+            ]
+        },
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash (dev)"    
+}
