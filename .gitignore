@@ -1,0 +1,20 @@
+# CMake
+/build/
+/cmake-build-*/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+/dist/
+*.whl
+
+# Profiling
+*.prof
+*.data
+perf.data*
+
+# IDE
+.vscode/*.log

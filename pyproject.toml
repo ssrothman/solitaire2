@@ -1,0 +1,26 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11>=2.13"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "solitaire2"
+version = "0.1.0"
+description = "C++20 solitaire backend and Python tooling scaffold"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.scripts]
+solitaire2 = "solitaire2.cli:main"
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+wheel.packages = ["python/solitaire2"]
+sdist.include = ["include", "src", "bindings", "apps", "perf", "tests", "cmake", "CMakeLists.txt", "CMakePresets.json"]
+cmake.build-type = "Release"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
