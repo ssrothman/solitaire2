@@ -5,7 +5,7 @@
 
 /**
  * The `game state` of the solitaire game consists of the following components:
- * - A deck of cards, which is split into the `draw` and `waste` piles
+ * - A deck of cards (the `gamedeck`), which is split into the `stock` and `waste` piles
  * - A set of four `foundation` piles, one for each suit, where cards are played in ascending order from Ace to King
  * - A set of seven `tableau` piles, where cards are played in descending order and alternating colors
  *        

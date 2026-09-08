@@ -113,3 +113,37 @@ TEST_CASE("Card string representation and printing") {
     solitaire2::print_card(packed_card);
     printf("\n");
 }
+
+TEST_CASE("Rank increment"){
+    solitaire2::Rank rank = solitaire2::Rank::Undef; 
+    REQUIRE(rank == solitaire2::Rank::Undef);
+
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Ace);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Two);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Three);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Four);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Five);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Six);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Seven);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Eight);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Nine);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Ten);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Jack);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::Queen);
+    ++rank;
+    REQUIRE(rank == solitaire2::Rank::King);
+
+    REQUIRE_THROWS_AS(++rank, std::out_of_range);
+}

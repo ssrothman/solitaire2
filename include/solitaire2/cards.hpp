@@ -39,6 +39,15 @@ enum class Rank : uint8_t {
     King = 13
 }; //end enum class Rank
 
+// operator++ for Ranks
+inline Rank& operator++(Rank& rank){
+    if (static_cast<uint8_t>(rank) >= 13){
+        throw std::out_of_range("Cannot increment rank::King");
+    } else {
+        return rank = static_cast<Rank>(static_cast<uint8_t>(rank) + 1);
+    }
+}
+
 /*
  * A basic card representation.
  * This is a simple struct that holds a suit and rank, and provides some utility functions.
