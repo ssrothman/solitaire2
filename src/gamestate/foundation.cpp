@@ -1,6 +1,6 @@
 #include <solitaire2/gamestate/foundation.hpp>
 
-solitaire2::Rank solitaire2::BasicFoundation::at(solitaire2::Suit suit){
+solitaire2::Rank solitaire2::BasicFoundation::at(solitaire2::Suit suit) const{
     if (static_cast<uint8_t>(suit) >= 4){
         throw std::out_of_range("Suit out of range in BasicFoundation::at()");
     } else {

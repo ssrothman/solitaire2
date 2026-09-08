@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <solitaire2/cards.hpp>
-#include <solitaire2/strrep.hpp>
+#include <solitaire2/prints.hpp>
 
 template <typename CardType>
 void test_card_functionality(){
@@ -98,20 +98,14 @@ TEST_CASE("Deck::pick throws out_of_range for invalid index") {
 
 TEST_CASE("Card string representation and printing") {
     solitaire2::BasicCard card(solitaire2::Suit::Hearts, solitaire2::Rank::Ace);
-    REQUIRE(solitaire2::to_string(card) == "A♥");
+    REQUIRE(solitaire2::to_string(card) == "\033[31mA♥\033[0m");
     REQUIRE(solitaire2::to_string(card.suit()) == "♥");
     REQUIRE(solitaire2::to_string(card.rank()) == "A");
 
     solitaire2::PackedCard packed_card(solitaire2::Suit::Spades, solitaire2::Rank::King);
-    REQUIRE(solitaire2::to_string(packed_card) == "K♠");
+    REQUIRE(solitaire2::to_string(packed_card) == "\033[34mK♠\033[0m");
     REQUIRE(solitaire2::to_string(packed_card.suit()) == "♠");
     REQUIRE(solitaire2::to_string(packed_card.rank()) == "K");
-
-    printf("Printing BasicCard Ace of Hearts:\n");
-    solitaire2::print_card(card);
-    printf("\nPrinting PackedCard King of Spades:\n");
-    solitaire2::print_card(packed_card);
-    printf("\n");
 }
 
 TEST_CASE("Rank increment"){

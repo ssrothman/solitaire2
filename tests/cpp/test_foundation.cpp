@@ -2,7 +2,7 @@
 
 #include <solitaire2/cards.hpp>
 #include <solitaire2/gamestate/foundation.hpp>
-#include <solitaire2/strrep.hpp>
+#include <solitaire2/prints.hpp>
 
 template <typename FoundationType>
 void test_foundation() {

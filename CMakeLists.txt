@@ -19,6 +19,7 @@ add_library(solitaire2_backend STATIC
 	src/version.cpp
     src/gamestate/gamedeck.cpp
     src/gamestate/foundation.cpp
+	src/gamestate/tableau.cpp
 )
 add_library(solitaire2::backend ALIAS solitaire2_backend)
 
@@ -47,11 +48,13 @@ if(SOLITAIRE2_BUILD_TESTS)
     add_executable(test_cards tests/cpp/test_cards.cpp)
     add_executable(test_gamedeck tests/cpp/test_gamedeck.cpp)
     add_executable(test_foundation tests/cpp/test_foundation.cpp)
+    add_executable(test_tableau tests/cpp/test_tableau.cpp)
 
 	target_link_libraries(test_version PRIVATE solitaire2::backend Catch2::Catch2WithMain)
 	target_link_libraries(test_cards PRIVATE solitaire2::backend Catch2::Catch2WithMain)
 	target_link_libraries(test_gamedeck PRIVATE solitaire2::backend Catch2::Catch2WithMain)
 	target_link_libraries(test_foundation PRIVATE solitaire2::backend Catch2::Catch2WithMain)
+	target_link_libraries(test_tableau PRIVATE solitaire2::backend Catch2::Catch2WithMain)
 
 	include(Catch)
 
@@ -59,6 +62,7 @@ if(SOLITAIRE2_BUILD_TESTS)
 	catch_discover_tests(test_cards)
 	catch_discover_tests(test_gamedeck)
 	catch_discover_tests(test_foundation)
+	catch_discover_tests(test_tableau)
 endif()
 
 if(SOLITAIRE2_BUILD_PYTHON)

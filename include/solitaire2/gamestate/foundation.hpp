@@ -15,7 +15,7 @@ public:
     BasicFoundation() : piles_({solitaire2::Rank::Undef, solitaire2::Rank::Undef, solitaire2::Rank::Undef, solitaire2::Rank::Undef}) {}
 
     // inspection
-    solitaire2::Rank at(solitaire2::Suit suit);
+    solitaire2::Rank at(solitaire2::Suit suit) const;
     
     // update
     void play_onto(solitaire2::Suit suit);

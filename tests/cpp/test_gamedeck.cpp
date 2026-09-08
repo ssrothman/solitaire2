@@ -2,7 +2,7 @@
 
 #include <solitaire2/cards.hpp>
 #include <solitaire2/gamestate/gamedeck.hpp>
-#include <solitaire2/strrep.hpp>
+#include <solitaire2/prints.hpp>
 
 template <typename GameDeckType>
 void test_gamedeck_functionality() {
