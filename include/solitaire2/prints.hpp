@@ -5,5 +5,6 @@
 #include <solitaire2/util/print_cards.hpp>
 #include <solitaire2/util/print_tableau.hpp>
 #include <solitaire2/util/print_foundation.hpp>
+#include <solitaire2/util/print_gamedeck.hpp>
 
 #endif

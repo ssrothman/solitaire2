@@ -23,6 +23,7 @@ namespace solitaire2 {
         bool stock_empty() const noexcept;
         const CardType top_of_waste() const noexcept;
         uint8_t size() const noexcept { return static_cast<uint8_t>(cards_.size()); }
+        uint8_t stock_size() const noexcept { return static_cast<uint8_t>(cards_.size() - draw_index_); }
 
         // manipulation methods
         CardType draw_from_stock();
