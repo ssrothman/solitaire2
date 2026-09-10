@@ -11,10 +11,25 @@
  *        
  */
 
+
 namespace solitaire2 {
 
-template <typename CardType>
+template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>
 class GameState {
+public:
+    GameState();
+    GameState(const Deck<CardType>& deck);
+
+    const GameDeckType& gamedeck() const noexcept { return gamedeck_; }
+    const FoundationType& foundation() const noexcept { return foundation_; }
+    const TableauType& tableau() const noexcept { return tableau_; }
+
+private:
+    void initialize_from_deck(const Deck<CardType>& deck);
+
+    GameDeckType gamedeck_;
+    FoundationType foundation_;
+    TableauType tableau_;
 
 }; // end class GameState
 
