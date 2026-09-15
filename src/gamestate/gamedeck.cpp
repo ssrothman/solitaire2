@@ -20,17 +20,6 @@ const CardType solitaire2::BasicGameDeck<CardType>::top_of_waste() const noexcep
 }
 
 template <typename CardType>
-CardType solitaire2::BasicGameDeck<CardType>::draw_from_stock() {
-    if (stock_empty()) {
-        throw std::out_of_range("Stock pile is empty in BasicGameDeck::draw_from_stock");
-    } else {
-        CardType card = cards_[draw_index_];
-        cards_.erase(cards_.begin() + draw_index_);
-        return card;
-    }
-} 
-
-template <typename CardType>
 CardType solitaire2::BasicGameDeck<CardType>::draw_from_waste() {
     if (waste_empty()) {
         throw std::out_of_range("Waste pile is empty in BasicGameDeck::draw_from_waste");

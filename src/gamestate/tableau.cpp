@@ -1,4 +1,5 @@
 #include <solitaire2/gamestate/tableau.hpp>
+#include <solitaire2/prints.hpp>
 
 using namespace solitaire2;
 
@@ -41,6 +42,7 @@ void BasicTableau<CardType>::move_onto(std::vector<CardType> other, uint8_t inde
 
 template <typename CardType>
 std::vector<CardType> BasicTableau<CardType>::take_from(uint8_t num_take, uint8_t index) {
+    printf("TAKING %u FROM PILE %u\n", num_take, index);
     if (num_take > face_up_[index].size()) {
         throw std::out_of_range("Not enough cards to take from tableau pile");
     }
@@ -52,6 +54,7 @@ std::vector<CardType> BasicTableau<CardType>::take_from(uint8_t num_take, uint8_
         face_up_[index].push_back(face_down_[index].back());
         face_down_[index].pop_back();
     }
+    printf("\t the bottom card is %s\n", solitaire2::to_string(taken[0]).c_str());
     return taken;
 }   
 

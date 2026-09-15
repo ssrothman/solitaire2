@@ -18,16 +18,16 @@ namespace solitaire2 {
     constexpr std::string TERM_BLUE = "\033[34m";
     constexpr std::string TERM_RESET = "\033[0m";
 
-    std::ostream& operator<< (std::ostream& outs, const Suit& suit){
+    inline std::ostream& operator<< (std::ostream& outs, const Suit& suit){
         return outs << suit_chars[static_cast<size_t>(suit)];
     }
 
-    std::ostream& operator<< (std::ostream& outs, const Rank& rank){
+    inline std::ostream& operator<< (std::ostream& outs, const Rank& rank){
         return outs << rank_chars[static_cast<size_t>(rank)];
     }
 
     template <typename CardType>
-    std::ostream& streamcard(std::ostream& outs, const CardType& card){
+    inline std::ostream& streamcard(std::ostream& outs, const CardType& card){
         if (card.is_red()) {
             outs << TERM_RED;
         } else {
@@ -39,15 +39,15 @@ namespace solitaire2 {
         outs << TERM_RESET;
         return outs;
     }
-    std::ostream& operator<< (std::ostream& outs, const BasicCard& card){
+    inline std::ostream& operator<< (std::ostream& outs, const BasicCard& card){
         return streamcard(outs, card);
     }
-    std::ostream& operator<< (std::ostream& outs, const PackedCard& card){
+    inline std::ostream& operator<< (std::ostream& outs, const PackedCard& card){
         return streamcard(outs, card);
     }
 
     template <typename CardType>
-    void print_card(const CardType& card) {
+    inline void print_card(const CardType& card) {
         // get the color right, in addition to printing the card
         std::cout << card;
     }

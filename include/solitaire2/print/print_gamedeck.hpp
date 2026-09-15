@@ -7,7 +7,7 @@
 namespace solitaire2 {
 
 template <typename GameDeckType>
-std::ostream& gamedeckstream(std::ostream& outs, const GameDeckType& gamedeck){
+inline std::ostream& gamedeckstream(std::ostream& outs, const GameDeckType& gamedeck){
     outs << "[" << static_cast<int>(gamedeck.stock_size()) << "]  ";
     if (!gamedeck.waste_empty()){
         outs << gamedeck.top_of_waste();
@@ -17,10 +17,10 @@ std::ostream& gamedeckstream(std::ostream& outs, const GameDeckType& gamedeck){
     return outs;
 }
 
-std::ostream& operator<<(std::ostream& outs, const BasicGameDeck<BasicCard>& gamedeck){
+inline std::ostream& operator<<(std::ostream& outs, const BasicGameDeck<BasicCard>& gamedeck){
     return gamedeckstream(outs, gamedeck);
 }
-std::ostream& operator<<(std::ostream& outs, const BasicGameDeck<PackedCard>& gamedeck){
+inline std::ostream& operator<<(std::ostream& outs, const BasicGameDeck<PackedCard>& gamedeck){
     return gamedeckstream(outs, gamedeck);
 }
 

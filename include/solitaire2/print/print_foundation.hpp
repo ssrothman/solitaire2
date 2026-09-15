@@ -6,7 +6,7 @@
 namespace solitaire2{
 
 template <typename FoundationType>
-std::ostream& foundationstream (std::ostream& outs, const FoundationType& foundation){
+inline std::ostream& foundationstream (std::ostream& outs, const FoundationType& foundation){
     for (uint8_t suit=0; suit<4; ++suit){
         Suit suit_enum = static_cast<Suit>(suit);
         Rank rank = foundation.at(suit_enum);
@@ -19,7 +19,7 @@ std::ostream& foundationstream (std::ostream& outs, const FoundationType& founda
     return outs;
 }
 
-std::ostream& operator<< (std::ostream& outs, const BasicFoundation& foundation){
+inline std::ostream& operator<< (std::ostream& outs, const BasicFoundation& foundation){
     return foundationstream(outs, foundation);
 }
 

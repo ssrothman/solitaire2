@@ -16,17 +16,24 @@ namespace solitaire2 {
         BasicGameDeck() : cards_(), draw_index_(0) {}
 
         template <typename T>
-        BasicGameDeck(T begin, T end) : cards_(begin, end), draw_index_(0) {}
+        BasicGameDeck(const T& begin, const T& end) : cards_(begin, end), draw_index_(0) {}
     
         // inspection methods
         bool waste_empty() const noexcept;
         bool stock_empty() const noexcept;
         const CardType top_of_waste() const noexcept;
-        uint8_t size() const noexcept { return static_cast<uint8_t>(cards_.size()); }
-        uint8_t stock_size() const noexcept { return static_cast<uint8_t>(cards_.size() - draw_index_); }
+        uint8_t size() const noexcept { return static_cast<uint8_t>(
+            cards_.size()); 
+        }
+        uint8_t stock_size() const noexcept { 
+            if (stock_empty()){
+                return 0;
+            } else {
+                return static_cast<uint8_t>(cards_.size() - draw_index_); 
+            }
+        }
 
         // manipulation methods
-        CardType draw_from_stock();
         CardType draw_from_waste();
         void reset_draw();
         void mill();

@@ -13,9 +13,10 @@ namespace solitaire2 {
 
 
 template <typename TableauType>
-std::ostream& tableaustream (std::ostream& outs, const TableauType& tableau){
+inline std::ostream& tableaustream (std::ostream& outs, const TableauType& tableau){
     for (uint8_t pile=0; pile<7; ++pile){
         outs << static_cast<int>(pile) << ": ";
+        outs << "[" << static_cast<int>(tableau.num_face_down(pile)) << "] ";
         for (const auto& card : tableau.face_up(pile)){
             outs << card << " ";
         }
@@ -24,15 +25,15 @@ std::ostream& tableaustream (std::ostream& outs, const TableauType& tableau){
     return outs;
 }
 
-std::ostream& operator<< (std::ostream& outs, const BasicTableau<BasicCard>& tableau){
+inline std::ostream& operator<< (std::ostream& outs, const BasicTableau<BasicCard>& tableau){
     return tableaustream(outs, tableau);
 }
-std::ostream& operator<< (std::ostream& outs, const BasicTableau<PackedCard>& tableau){
+inline std::ostream& operator<< (std::ostream& outs, const BasicTableau<PackedCard>& tableau){
     return tableaustream(outs, tableau);
 }
 
 template <typename TableauType>
-void print_tableau(const TableauType& tableau) {
+inline void print_tableau(const TableauType& tableau) {
     std::cout << tableau;
 }
 

@@ -28,5 +28,7 @@
             "icon": "terminal-powershell"
         }
     },
-    "terminal.integrated.defaultProfile.linux": "bash (dev)"    
+    "terminal.integrated.defaultProfile.linux": "bash (dev)",
+    "cmake.revealLog": "always",
+    "cmake.configureOnEdit": false
 }

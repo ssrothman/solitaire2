@@ -20,6 +20,7 @@ add_library(solitaire2_backend STATIC
     src/gamestate/gamedeck.cpp
     src/gamestate/foundation.cpp
 	src/gamestate/tableau.cpp
+	src/gamestate/board.cpp
 )
 add_library(solitaire2::backend ALIAS solitaire2_backend)
 
@@ -49,12 +50,18 @@ if(SOLITAIRE2_BUILD_TESTS)
     add_executable(test_gamedeck tests/cpp/test_gamedeck.cpp)
     add_executable(test_foundation tests/cpp/test_foundation.cpp)
     add_executable(test_tableau tests/cpp/test_tableau.cpp)
+    add_executable(test_board tests/cpp/test_board.cpp)
+    add_executable(test_moves tests/cpp/test_moves.cpp)
+    add_executable(test_notation tests/cpp/test_notation.cpp)
 
-	target_link_libraries(test_version PRIVATE solitaire2::backend Catch2::Catch2WithMain)
-	target_link_libraries(test_cards PRIVATE solitaire2::backend Catch2::Catch2WithMain)
-	target_link_libraries(test_gamedeck PRIVATE solitaire2::backend Catch2::Catch2WithMain)
-	target_link_libraries(test_foundation PRIVATE solitaire2::backend Catch2::Catch2WithMain)
-	target_link_libraries(test_tableau PRIVATE solitaire2::backend Catch2::Catch2WithMain)
+	target_link_libraries(test_version PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_cards PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_gamedeck PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_foundation PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_tableau PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_board PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_moves PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_notation PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
 
 	include(Catch)
 
@@ -63,12 +70,15 @@ if(SOLITAIRE2_BUILD_TESTS)
 	catch_discover_tests(test_gamedeck)
 	catch_discover_tests(test_foundation)
 	catch_discover_tests(test_tableau)
+	catch_discover_tests(test_board)
+	catch_discover_tests(test_moves)
+	catch_discover_tests(test_notation)
 endif()
 
 if(SOLITAIRE2_BUILD_PYTHON)
 	find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 	pybind11_add_module(solitaire2_python MODULE bindings/module.cpp)
-	target_link_libraries(solitaire2_python PRIVATE solitaire2::backend)
+	target_link_libraries(solitaire2_python PRIVATE solitaire2::backend re2::re2)
 	set_target_properties(solitaire2_python PROPERTIES OUTPUT_NAME _core)
 endif()
 
