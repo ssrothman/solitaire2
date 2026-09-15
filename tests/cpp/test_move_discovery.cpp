@@ -7,8 +7,8 @@
 
 using namespace solitaire2;
 
-template <typename MoveType>
-void test_moves(std::vector<MoveType>& expected, std::vector<MoveType>& actual){
+template <typename MoveType, typename BoardType>
+void test_moves(std::vector<MoveType>& expected, std::vector<MoveType>& actual, const BoardType& board){
     REQUIRE(expected.size() == actual.size());
 
     std::sort(expected.begin(), expected.end());
@@ -16,6 +16,7 @@ void test_moves(std::vector<MoveType>& expected, std::vector<MoveType>& actual){
 
     for (size_t i=0; i<actual.size(); ++i){
         REQUIRE(expected[i] == actual[i]);
+        REQUIRE(board.is_valid_move(expected[i]));
     }
 }
 
@@ -48,7 +49,7 @@ TEST_CASE("Move discovery from sorted deck"){
 
     std::vector<BasicMove> moves = all_valid_moves<BasicMove, BasicGameBoard>(board);
 
-    test_moves(moves, expected_moves);
+    test_moves(moves, expected_moves, board);
 }
 
 
@@ -69,7 +70,7 @@ TEST_CASE("Move discovery from initial state [seed 12]"){
     }});
 
     std::vector<BasicMove> moves = all_valid_moves<BasicMove, BasicGameBoard>(board);
-    test_moves(moves, expected_moves);
+    test_moves(moves, expected_moves, board);
 }
 
 TEST_CASE("Move discovery from initial state [seed 9998]"){
@@ -96,5 +97,5 @@ TEST_CASE("Move discovery from initial state [seed 9998]"){
 
     std::vector<BasicMove> moves = all_valid_moves<BasicMove, BasicGameBoard>(board);
     
-    test_moves(moves, expected_moves);
+    test_moves(moves, expected_moves, board);
 }

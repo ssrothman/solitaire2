@@ -32,7 +32,7 @@ public:
     const TableauType& tableau() const noexcept { return tableau_; }
 
     template <typename MoveType>
-    bool is_valid_move(const MoveType& move){
+    bool is_valid_move(const MoveType& move) const{
         switch(move.type()){
             case static_cast<uint8_t>(MoveKind::WasteToStock):
                 return gamedeck_.stock_empty() && !gamedeck_.waste_empty();
