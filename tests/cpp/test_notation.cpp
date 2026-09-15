@@ -4,6 +4,7 @@
 #include <solitaire2/move_notation.hpp>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 using namespace solitaire2;
 
@@ -80,5 +81,59 @@ TEST_CASE("Notation parsing works on good inputs"){
 }
 
 TEST_CASE("Notation parsing round trip"){
-    REQUIRE("!TO DO");
+    BasicMove testmove(Location::Waste, Location::Stock, 0, 0);
+    std::string notation = move_to_notation(testmove);
+    BasicMove roundtrip = notation_to_move<BasicMove>(notation);
+    REQUIRE(roundtrip == testmove);
+
+    testmove = BasicMove(Location::Stock, Location::Waste, 0, 0);
+    notation = move_to_notation(testmove);
+    roundtrip = notation_to_move<BasicMove>(notation);
+    REQUIRE(roundtrip == testmove);
+
+    testmove = BasicMove(Location::Waste, Location::Tableau, 0, 3);
+    notation = move_to_notation(testmove);
+    roundtrip = notation_to_move<BasicMove>(notation);
+    REQUIRE(roundtrip == testmove);
+
+    testmove = BasicMove(Location::Waste, Location::Foundation, 0, 0);
+    notation = move_to_notation(testmove);
+    roundtrip = notation_to_move<BasicMove>(notation);
+    REQUIRE(roundtrip == testmove);
+
+    testmove = BasicMove(Location::Tableau, Location::Foundation, 2, 0);
+    notation = move_to_notation(testmove);
+    roundtrip = notation_to_move<BasicMove>(notation);
+    REQUIRE(roundtrip == testmove);
+
+    testmove = BasicMove(Location::Tableau, Location::Tableau, 1, 5);
+    notation = move_to_notation(testmove);
+    roundtrip = notation_to_move<BasicMove>(notation);
+    REQUIRE(roundtrip == testmove);
+}
+
+TEST_CASE("Bulk notation writing and parsing"){
+    std::vector<BasicMove> moves = {
+        BasicMove(Location::Waste, Location::Stock, 0, 0),
+        BasicMove(Location::Stock, Location::Waste, 0, 0),
+        BasicMove(Location::Waste, Location::Tableau, 0, 3),
+        BasicMove(Location::Waste, Location::Foundation, 0, 0),
+        BasicMove(Location::Tableau, Location::Foundation, 2, 0),
+        BasicMove(Location::Tableau, Location::Tableau, 1, 5)
+    };
+
+    std::ofstream outs("test_moves.txt", std::ios::out | std::ios::trunc);
+    moves_to_stream<BasicMove>(outs, moves);
+    outs.close();
+
+    std::ifstream ins("test_moves.txt", std::ios::in);
+    std::vector<BasicMove> roundtrip = stream_to_moves<BasicMove>(ins);
+    ins.close();
+
+    REQUIRE(roundtrip.size() == moves.size());
+    for (size_t i = 0; i < moves.size(); ++i){
+        REQUIRE(roundtrip[i] == moves[i]);
+    }
+
+    std::remove("test_moves.txt");
 }

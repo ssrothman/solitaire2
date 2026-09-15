@@ -54,6 +54,10 @@ public:
     uint8_t type() const {
         return type_;
     }
+
+    bool operator==(const PackedMove& other) const {
+        return type_ == other.type_ && index_ == other.index_;
+    }
 private:
     /**
      * Packed Locations for the source and destination
@@ -100,6 +104,11 @@ public:
 
     uint8_t type() const {
         return type_;
+    }
+
+    bool operator==(const BasicMove& other) const {
+        return source_ == other.source_ && target_ == other.target_ &&
+            source_index_ == other.source_index_ && target_index_ == other.target_index_;
     }
 private:
     Location source_;

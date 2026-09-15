@@ -20,16 +20,16 @@ inline std::ostream& move_to_stream_(std::ostream& outs, const MoveType& move){
             outs << "StockMill";
             break;
         case static_cast<uint8_t>(MoveKind::WasteToTableau):
-            outs << "W→T" << move.target_index();
+            outs << "W→T" << static_cast<int>(move.target_index());
             break;
         case static_cast<uint8_t>(MoveKind::WasteToFoundation):
             outs << "W→F";
             break;
         case static_cast<uint8_t>(MoveKind::TableauToTableau):
-            outs << "T" << move.source_index() << "→T" << move.target_index();
+            outs << "T" << static_cast<int>(move.source_index()) << "→T" << static_cast<int>(move.target_index());
             break;
         case static_cast<uint8_t>(MoveKind::TableauToFoundation):
-            outs << "T" << move.source_index() << "→F";
+            outs << "T" << static_cast<int>(move.source_index()) << "→F";
             break;
     }
     return outs;
@@ -58,6 +58,7 @@ inline bool is_whitespace(char test){
 const re2::RE2 whitespace_regex("(\\s+)");
 const re2::RE2 arrow_regex("(-+)>");
 const re2::RE2 parse_regex("([A-Z]*)([0-9]*)?→([A-Z]*)([0-9])?");
+const re2::RE2 counter_regex("([0-9]+)\\.(.*)");
 
 inline int to_uppercase(int character){
     if (character >= 97 && character <= 122){
@@ -99,6 +100,13 @@ template <typename MoveType>
 inline MoveType notation_to_move(std::string& notation){
     normalize_notation_string(notation);
 
+    // A few special cases
+    if (notation == "STOCKRESET" || notation == "RESET" || notation == "R"){
+        return MoveType(Location::Waste, Location::Stock, 0, 0);
+    } else if (notation == "STOCKMILL" || notation == "MILL" || notation == "DRAW" || notation == "D"){
+        return MoveType(Location::Stock, Location::Waste, 0, 0);
+    }
+
     // now we want to parse as SOURCE → TARGET
     std::string source_loc, source_idx, target_loc, target_idx;
     bool success = re2::RE2::FullMatch(
@@ -123,6 +131,33 @@ inline MoveType notation_to_move(std::string& notation){
     uint8_t target_index = static_cast<uint8_t>(atoi(target_idx.c_str()));
 
     return MoveType(source, target, source_index, target_index);
+}
+
+template <typename MoveType>
+inline std::ostream& moves_to_stream(std::ostream& outs, const std::vector<MoveType>& moves){
+    unsigned int counter = 0;
+    for (const auto& move : moves){
+        outs << counter << ". " << move_to_notation(move) << std::endl;
+        counter++;
+    }
+    return outs;
+}
+
+template <typename MoveType>
+inline std::vector<MoveType> stream_to_moves(std::istream& ins){
+    std::vector<MoveType> moves;
+    std::string line;
+
+    std::string counter_str, move_str;
+
+    while (std::getline(ins, line)){
+        if (line.empty()){
+            continue;
+        }
+        re2::RE2::FullMatch(line, counter_regex, &counter_str, &move_str);
+        moves.push_back(notation_to_move<MoveType>(move_str));
+    }
+    return moves;
 }
 
 }; //end namespace solitaire2
