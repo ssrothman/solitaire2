@@ -112,7 +112,7 @@ TEST_CASE("Notation parsing round trip"){
     REQUIRE(roundtrip == testmove);
 }
 
-TEST_CASE("Bulk notation writing and parsing"){
+TEST_CASE("Bulk notation writing and parsing (including file I/O)"){
     std::vector<BasicMove> moves = {
         BasicMove(Location::Waste, Location::Stock, 0, 0),
         BasicMove(Location::Stock, Location::Waste, 0, 0),
