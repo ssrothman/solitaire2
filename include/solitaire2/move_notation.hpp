@@ -27,6 +27,9 @@ inline std::ostream& move_to_stream_(std::ostream& outs, const MoveType& move){
             break;
         case static_cast<uint8_t>(MoveKind::TableauToTableau):
             outs << "T" << static_cast<int>(move.source_index()) << "→T" << static_cast<int>(move.target_index());
+            if (move.amount() != 1){
+                outs << "(" << static_cast<int>(move.amount()) << ")";
+            }
             break;
         case static_cast<uint8_t>(MoveKind::TableauToFoundation):
             outs << "T" << static_cast<int>(move.source_index()) << "→F";
@@ -57,7 +60,7 @@ inline bool is_whitespace(char test){
 
 const re2::RE2 whitespace_regex("(\\s+)");
 const re2::RE2 arrow_regex("(-+)>");
-const re2::RE2 parse_regex("([A-Z]*)([0-9]*)?→([A-Z]*)([0-9])?");
+const re2::RE2 parse_regex("([A-Z]*)([0-9]*)?→([A-Z]*)([0-9])?\\(?([0-9]*)?\\)?");
 const re2::RE2 counter_regex("([0-9]+)\\.(.*)");
 
 inline int to_uppercase(int character){
@@ -108,11 +111,12 @@ inline MoveType notation_to_move(std::string& notation){
     }
 
     // now we want to parse as SOURCE → TARGET
-    std::string source_loc, source_idx, target_loc, target_idx;
+    std::string source_loc, source_idx, target_loc, target_idx, amount;
     bool success = re2::RE2::FullMatch(
         notation, parse_regex, 
         &source_loc, &source_idx,
-        &target_loc, &target_idx
+        &target_loc, &target_idx,
+        &amount
     );
     if (!success){
         throw std::invalid_argument("Bad notation string");
@@ -130,7 +134,11 @@ inline MoveType notation_to_move(std::string& notation){
     uint8_t source_index = static_cast<uint8_t>(atoi(source_idx.c_str()));
     uint8_t target_index = static_cast<uint8_t>(atoi(target_idx.c_str()));
 
-    return MoveType(source, target, source_index, target_index);
+    printf("THE AMOUNT STRING IS: %s\n", amount.c_str());
+
+    uint8_t amount_int = amount.empty() ? 1 : static_cast<uint8_t>(atoi(amount.c_str()));
+
+    return MoveType(source, target, source_index, target_index, amount_int);
 }
 
 template <typename MoveType>

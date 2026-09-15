@@ -52,8 +52,8 @@ void GameBoard<CardType, GameDeckType, FoundationType, TableauType>::waste_to_fo
 }
 
 template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>
-void GameBoard<CardType, GameDeckType, FoundationType, TableauType>::tableau_to_tableau(uint8_t source, uint8_t target){
-    tableau_.move_onto({tableau_.take_from(1, source)}, target);
+void GameBoard<CardType, GameDeckType, FoundationType, TableauType>::tableau_to_tableau(uint8_t source, uint8_t target, uint8_t amount){
+    tableau_.move_onto({tableau_.take_from(amount, source)}, target);
 }
 
 template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>

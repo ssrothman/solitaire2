@@ -401,5 +401,48 @@ TEST_CASE("Apply moves"){
     REQUIRE(board.gamedeck().waste_empty());
     REQUIRE(board.gamedeck().stock_size() == 22);
 
+    // multi-card tableau-to-tableau
+    REQUIRE_THROWS_AS(board.apply_move(BasicMove(Location::Tableau, Location::Tableau, 2, 1, 3)), std::out_of_range);
+
+    board.apply_move(BasicMove(Location::Tableau, Location::Tableau, 6, 4, 2));
+
+    REQUIRE(board.foundation().at(Suit::Hearts) == Rank::Four);
+    REQUIRE(board.foundation().at(Suit::Diamonds) == Rank::Undef);
+    REQUIRE(board.foundation().at(Suit::Clubs) == Rank::Two);
+    REQUIRE(board.foundation().at(Suit::Spades) == Rank::Undef);
+
+    REQUIRE(board.tableau().num_face_up(0) == 1);
+    REQUIRE(board.tableau().num_face_down(0) == 0);
+    REQUIRE(board.tableau().face_up(0)[0] == BasicCard(Suit::Clubs, Rank::Two));
+
+    REQUIRE(board.tableau().num_face_up(1) == 0);
+    REQUIRE(board.tableau().num_face_down(1) == 0);
+
+    REQUIRE(board.tableau().num_face_up(2) == 1);
+    REQUIRE(board.tableau().num_face_down(2) == 1);
+    REQUIRE(board.tableau().face_up(2)[0] == BasicCard(Suit::Hearts, Rank::Five));
+
+    REQUIRE(board.tableau().num_face_up(3) == 1);
+    REQUIRE(board.tableau().num_face_down(3) == 3);
+    REQUIRE(board.tableau().face_up(3)[0] == BasicCard(Suit::Hearts, Rank::Ten));
+
+    REQUIRE(board.tableau().num_face_up(4) == 3);
+    REQUIRE(board.tableau().num_face_down(4) == 4);
+    REQUIRE(board.tableau().face_up(4)[0] == BasicCard(Suit::Diamonds, Rank::Two));
+    REQUIRE(board.tableau().face_up(4)[1] == BasicCard(Suit::Diamonds, Rank::King));
+    REQUIRE(board.tableau().face_up(4)[2] == BasicCard(Suit::Clubs, Rank::Ten));
+
+    REQUIRE(board.tableau().num_face_up(5) == 1);
+    REQUIRE(board.tableau().num_face_down(5) == 5);
+    REQUIRE(board.tableau().face_up(5)[0] == BasicCard(Suit::Diamonds, Rank::Eight));
+
+    REQUIRE(board.tableau().num_face_up(6) == 1);
+    REQUIRE(board.tableau().num_face_down(6) == 3);
+    REQUIRE(board.tableau().face_up(6)[0] == BasicCard(Suit::Diamonds, Rank::Queen));
+
+    REQUIRE(board.gamedeck().waste_empty());
+    REQUIRE(board.gamedeck().stock_size() == 22);
+
+
 
 }

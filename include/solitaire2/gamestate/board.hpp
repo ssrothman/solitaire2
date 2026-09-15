@@ -41,7 +41,7 @@ public:
                 waste_to_foundation();
                 break;
             case static_cast<uint8_t>(MoveKind::TableauToTableau):
-                tableau_to_tableau(move.source_index(), move.target_index());
+                tableau_to_tableau(move.source_index(), move.target_index(), move.amount());
                 break;
             case static_cast<uint8_t>(MoveKind::TableauToFoundation):
                 tableau_to_foundation(move.source_index());
@@ -62,7 +62,7 @@ private:
     void stock_reset();
     void waste_to_tableau(uint8_t target);
     void waste_to_foundation();
-    void tableau_to_tableau(uint8_t source, uint8_t target);
+    void tableau_to_tableau(uint8_t source, uint8_t target, uint8_t amount);
     void tableau_to_foundation(uint8_t source);
 
     GameDeckType gamedeck_;
