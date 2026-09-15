@@ -443,6 +443,91 @@ TEST_CASE("Apply moves"){
     REQUIRE(board.gamedeck().waste_empty());
     REQUIRE(board.gamedeck().stock_size() == 22);
 
+    // lets build up a few more cards on pile 4 and then test that multi-moves still do the right thing
+    board.apply_move(BasicMove(Location::Tableau, Location::Tableau, 6, 4));
+    board.apply_move(BasicMove(Location::Tableau, Location::Tableau, 6, 4));
+    board.apply_move(BasicMove(Location::Tableau, Location::Tableau, 6, 4));
+
+    REQUIRE(board.foundation().at(Suit::Hearts) == Rank::Four);
+    REQUIRE(board.foundation().at(Suit::Diamonds) == Rank::Undef);
+    REQUIRE(board.foundation().at(Suit::Clubs) == Rank::Two);
+    REQUIRE(board.foundation().at(Suit::Spades) == Rank::Undef);
+
+    REQUIRE(board.tableau().num_face_up(0) == 1);
+    REQUIRE(board.tableau().num_face_down(0) == 0);
+    REQUIRE(board.tableau().face_up(0)[0] == BasicCard(Suit::Clubs, Rank::Two));
+
+    REQUIRE(board.tableau().num_face_up(1) == 0);
+    REQUIRE(board.tableau().num_face_down(1) == 0);
+
+    REQUIRE(board.tableau().num_face_up(2) == 1);
+    REQUIRE(board.tableau().num_face_down(2) == 1);
+    REQUIRE(board.tableau().face_up(2)[0] == BasicCard(Suit::Hearts, Rank::Five));
+
+    REQUIRE(board.tableau().num_face_up(3) == 1);
+    REQUIRE(board.tableau().num_face_down(3) == 3);
+    REQUIRE(board.tableau().face_up(3)[0] == BasicCard(Suit::Hearts, Rank::Ten));
+
+    REQUIRE(board.tableau().num_face_up(4) == 6);
+    REQUIRE(board.tableau().num_face_down(4) == 4);
+    REQUIRE(board.tableau().face_up(4)[0] == BasicCard(Suit::Diamonds, Rank::Two));
+    REQUIRE(board.tableau().face_up(4)[1] == BasicCard(Suit::Diamonds, Rank::King));
+    REQUIRE(board.tableau().face_up(4)[2] == BasicCard(Suit::Clubs, Rank::Ten));
+    REQUIRE(board.tableau().face_up(4)[3] == BasicCard(Suit::Diamonds, Rank::Queen));
+    REQUIRE(board.tableau().face_up(4)[4] == BasicCard(Suit::Diamonds, Rank::Jack));
+    REQUIRE(board.tableau().face_up(4)[5] == BasicCard(Suit::Diamonds, Rank::Ten));
+
+    REQUIRE(board.tableau().num_face_up(5) == 1);
+    REQUIRE(board.tableau().num_face_down(5) == 5);
+    REQUIRE(board.tableau().face_up(5)[0] == BasicCard(Suit::Diamonds, Rank::Eight));
+
+    REQUIRE(board.tableau().num_face_up(6) == 1);
+    REQUIRE(board.tableau().num_face_down(6) == 0);
+    REQUIRE(board.tableau().face_up(6)[0] == BasicCard(Suit::Diamonds, Rank::Nine));
+
+    REQUIRE(board.gamedeck().waste_empty());
+    REQUIRE(board.gamedeck().stock_size() == 22);
+
+    board.apply_move(BasicMove(Location::Tableau, Location::Tableau, 4, 5, 4));
+
+    REQUIRE(board.foundation().at(Suit::Hearts) == Rank::Four);
+    REQUIRE(board.foundation().at(Suit::Diamonds) == Rank::Undef);
+    REQUIRE(board.foundation().at(Suit::Clubs) == Rank::Two);
+    REQUIRE(board.foundation().at(Suit::Spades) == Rank::Undef);
+
+    REQUIRE(board.tableau().num_face_up(0) == 1);
+    REQUIRE(board.tableau().num_face_down(0) == 0);
+    REQUIRE(board.tableau().face_up(0)[0] == BasicCard(Suit::Clubs, Rank::Two));
+
+    REQUIRE(board.tableau().num_face_up(1) == 0);
+    REQUIRE(board.tableau().num_face_down(1) == 0);
+
+    REQUIRE(board.tableau().num_face_up(2) == 1);
+    REQUIRE(board.tableau().num_face_down(2) == 1);
+    REQUIRE(board.tableau().face_up(2)[0] == BasicCard(Suit::Hearts, Rank::Five));
+
+    REQUIRE(board.tableau().num_face_up(3) == 1);
+    REQUIRE(board.tableau().num_face_down(3) == 3);
+    REQUIRE(board.tableau().face_up(3)[0] == BasicCard(Suit::Hearts, Rank::Ten));
+
+    REQUIRE(board.tableau().num_face_up(4) == 2);
+    REQUIRE(board.tableau().num_face_down(4) == 4);
+    REQUIRE(board.tableau().face_up(4)[0] == BasicCard(Suit::Diamonds, Rank::Two));
+    REQUIRE(board.tableau().face_up(4)[1] == BasicCard(Suit::Diamonds, Rank::King));
+
+    REQUIRE(board.tableau().num_face_up(5) == 5);
+    REQUIRE(board.tableau().num_face_down(5) == 5);
+    REQUIRE(board.tableau().face_up(5)[0] == BasicCard(Suit::Diamonds, Rank::Eight));
+    REQUIRE(board.tableau().face_up(5)[1] == BasicCard(Suit::Clubs, Rank::Ten));
+    REQUIRE(board.tableau().face_up(5)[2] == BasicCard(Suit::Diamonds, Rank::Queen));
+    REQUIRE(board.tableau().face_up(5)[3] == BasicCard(Suit::Diamonds, Rank::Jack));
+    REQUIRE(board.tableau().face_up(5)[4] == BasicCard(Suit::Diamonds, Rank::Ten));
 
 
+    REQUIRE(board.tableau().num_face_up(6) == 1);
+    REQUIRE(board.tableau().num_face_down(6) == 0);
+    REQUIRE(board.tableau().face_up(6)[0] == BasicCard(Suit::Diamonds, Rank::Nine));
+
+    REQUIRE(board.gamedeck().waste_empty());
+    REQUIRE(board.gamedeck().stock_size() == 22);
 }
