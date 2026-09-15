@@ -53,6 +53,7 @@ if(SOLITAIRE2_BUILD_TESTS)
     add_executable(test_board tests/cpp/test_board.cpp)
     add_executable(test_moves tests/cpp/test_moves.cpp)
     add_executable(test_notation tests/cpp/test_notation.cpp)
+    add_executable(test_move_discovery tests/cpp/test_move_discovery.cpp)
 
 	target_link_libraries(test_version PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
 	target_link_libraries(test_cards PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
@@ -62,6 +63,7 @@ if(SOLITAIRE2_BUILD_TESTS)
 	target_link_libraries(test_board PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
 	target_link_libraries(test_moves PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
 	target_link_libraries(test_notation PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
+	target_link_libraries(test_move_discovery PRIVATE solitaire2::backend Catch2::Catch2WithMain re2::re2)
 
 	include(Catch)
 
@@ -73,6 +75,7 @@ if(SOLITAIRE2_BUILD_TESTS)
 	catch_discover_tests(test_board)
 	catch_discover_tests(test_moves)
 	catch_discover_tests(test_notation)
+	catch_discover_tests(test_move_discovery)
 endif()
 
 if(SOLITAIRE2_BUILD_PYTHON)

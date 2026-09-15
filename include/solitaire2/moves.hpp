@@ -62,6 +62,15 @@ public:
     bool operator==(const PackedMove& other) const {
         return type_ == other.type_ && index_ == other.index_;
     }
+
+    uint16_t hash() const {
+        return (type_ << 8) | index_;
+    }
+
+    bool operator<(const PackedMove& other) const {
+        return hash() < other.hash();
+    }
+
 private:
     /**
      * Packed Locations for the source and destination, and number of cards to move
@@ -119,6 +128,19 @@ public:
     bool operator==(const BasicMove& other) const {
         return source_ == other.source_ && target_ == other.target_ &&
             source_index_ == other.source_index_ && target_index_ == other.target_index_;
+    }
+
+    bool operator<(const BasicMove& other) const {
+        return hash() < other.hash();
+    }
+
+    uint16_t hash() const{
+        return PackedMove(
+            source_, target_,
+            source_index_, 
+            target_index_,
+            amount_
+        ).hash();
     }
 private:
     Location source_;

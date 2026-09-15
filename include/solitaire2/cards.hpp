@@ -145,9 +145,8 @@ public:
         initialize_deck();
     };
 
-    void shuffle() noexcept {
-        std::random_device rd;
-        std::mt19937 g(rd());
+    void shuffle(size_t seed) noexcept {
+        std::mt19937 g(seed);
         std::shuffle(cards_.begin(), cards_.end(), g);
     }
 

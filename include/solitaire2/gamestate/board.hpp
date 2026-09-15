@@ -4,6 +4,12 @@
 #include <solitaire2/cards.hpp>
 #include <solitaire2/moves.hpp>
 
+#include <solitaire2/gamestate/gamedeck.hpp>
+#include <solitaire2/gamestate/tableau.hpp>
+#include <solitaire2/gamestate/foundation.hpp>
+
+#include <iostream>
+
 /**
  * The `game state` of the solitaire game consists of the following components:
  * - A deck of cards (the `gamedeck`), which is split into the `stock` and `waste` piles
@@ -18,12 +24,44 @@ namespace solitaire2 {
 template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>
 class GameBoard {
 public:
-    GameBoard(bool shuffle=true);
+    GameBoard(bool shuffle=true, size_t seed=0);
     GameBoard(const Deck<CardType>& deck);
 
     const GameDeckType& gamedeck() const noexcept { return gamedeck_; }
     const FoundationType& foundation() const noexcept { return foundation_; }
     const TableauType& tableau() const noexcept { return tableau_; }
+
+    template <typename MoveType>
+    bool is_valid_move(const MoveType& move){
+        switch(move.type()){
+            case static_cast<uint8_t>(MoveKind::WasteToStock):
+                return gamedeck_.stock_empty() && !gamedeck_.waste_empty();
+
+            case static_cast<uint8_t>(MoveKind::StockToWaste):
+                return !gamedeck_.stock_empty();
+
+            case static_cast<uint8_t>(MoveKind::WasteToTableau):
+                return tableau_.num_face_up(move.target_index()) == 0 ? gamedeck_.top_of_waste().rank() == Rank::King : gamedeck_.top_of_waste().can_play_below(tableau_.face_up(move.target_index())[tableau_.num_face_up(move.target_index()) - 1]);
+
+            case static_cast<uint8_t>(MoveKind::WasteToFoundation):
+                return static_cast<uint8_t>(gamedeck_.top_of_waste().rank()) == static_cast<uint8_t>(foundation_.at(gamedeck_.top_of_waste().suit())) + 1;
+
+            case static_cast<uint8_t>(MoveKind::TableauToTableau):
+
+                if (tableau_.num_face_up(move.target_index()) == 0){
+                    return move.amount() <= tableau_.face_up(move.source_index()).size() && tableau_.face_up(move.source_index())[tableau_.face_up(move.source_index()).size() - move.amount()].rank() == Rank::King;       
+                } else {
+                    return move.amount() <= tableau_.face_up(move.source_index()).size() && tableau_.face_up(move.source_index())[tableau_.face_up(move.source_index()).size() - move.amount()].can_play_below(tableau_.face_up(move.target_index())[tableau_.num_face_up(move.target_index()) - 1]);
+                }
+
+            case static_cast<uint8_t>(MoveKind::TableauToFoundation):
+                return !tableau_.face_up(move.source_index()).empty() && static_cast<uint8_t>(tableau_.face_up(move.source_index())[tableau_.face_up(move.source_index()).size() - 1].rank()) == static_cast<uint8_t>(foundation_.at(tableau_.face_up(move.source_index())[tableau_.face_up(move.source_index()).size() - 1].suit())) + 1;
+            
+            default:
+                std::cerr << "WARNING: INVALID MOVE TYPE" << std::endl;
+                return false;
+        }
+    }
 
     template <typename MoveType>
     void apply_move(const MoveType& move){

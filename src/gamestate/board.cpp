@@ -6,11 +6,11 @@
 using namespace solitaire2;
 
 template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>
-GameBoard<CardType, GameDeckType, FoundationType, TableauType>::GameBoard(bool shuffle) : gamedeck_(), foundation_(), tableau_() {
+GameBoard<CardType, GameDeckType, FoundationType, TableauType>::GameBoard(bool shuffle, size_t seed) : gamedeck_(), foundation_(), tableau_() {
 
     Deck<CardType> deck;
     if (shuffle) {
-        deck.shuffle();
+        deck.shuffle(seed);
     }
     initialize_from_deck(deck);
 }

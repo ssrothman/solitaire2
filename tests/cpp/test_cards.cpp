@@ -66,7 +66,7 @@ void test_deck_functionality(){
     REQUIRE(deck.pick(39) == CardType(solitaire2::Suit::Spades, solitaire2::Rank::Ace));
     REQUIRE(deck.pick(51) == CardType(solitaire2::Suit::Spades, solitaire2::Rank::King));
 
-    deck.shuffle();
+    deck.shuffle(12345);
     // check that all of the cards are still valid after shuffling
     suit_counts = {0, 0, 0, 0};
     rank_counts = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
