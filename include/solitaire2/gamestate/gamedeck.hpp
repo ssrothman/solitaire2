@@ -43,6 +43,9 @@ namespace solitaire2 {
        uint8_t draw_index_;
 }; // end class BasicGameDeck
 
+using BasicCardBasicGameDeck = solitaire2::BasicGameDeck<solitaire2::BasicCard>;
+using PackedCardBasicGameDeck = solitaire2::BasicGameDeck<solitaire2::PackedCard>;
+
 }; // end namespace solitaire2
 
 #endif

@@ -35,6 +35,9 @@ private:
 
 }; // end class BasicTableau
 
+using BasicCardBasicTableau = BasicTableau<BasicCard>;
+using PackedCardBasicTableau = BasicTableau<PackedCard>;
+
 };//end namespace solitaire2
 
 #endif

@@ -47,6 +47,19 @@ namespace solitaire2 {
     }
 
     template <typename CardType>
+    inline std::ostream& operator<< (std::ostream& outs, const Deck<CardType>& deck){
+        bool first = true;
+        for (const auto& card : deck) {
+            if (!first) {
+                outs << " ";
+            }
+            outs << card;
+            first = false;
+        }
+        return outs;
+    }
+
+    template <typename CardType>
     inline void print_card(const CardType& card) {
         // get the color right, in addition to printing the card
         std::cout << card;

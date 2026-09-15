@@ -168,6 +168,8 @@ public:
 
     auto begin() { return cards_.begin(); }
     auto end() { return cards_.end(); }
+    auto begin() const { return cards_.begin(); }
+    auto end() const { return cards_.end(); }
 
 private:
     std::array<CardType, 52> cards_;
