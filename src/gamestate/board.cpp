@@ -28,7 +28,15 @@ void GameBoard<CardType, GameDeckType, FoundationType, TableauType>::initialize_
     }
     tableau_ = TableauType(tableau_cards);
     gamedeck_ = GameDeckType(deck.begin()+card_index, deck.end());
+    foundation_ = FoundationType();
 }
+
+template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>
+void GameBoard<CardType, GameDeckType, FoundationType, TableauType>::reset(size_t seed){
+    Deck<CardType> deck;
+    deck.shuffle(seed);
+    initialize_from_deck(deck);
+} 
 
 template <typename CardType, typename GameDeckType, typename FoundationType, typename TableauType>
 void GameBoard<CardType, GameDeckType, FoundationType, TableauType>::stock_mill(){

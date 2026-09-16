@@ -6,6 +6,7 @@
 #include <solitaire2/gamestate/foundation.hpp>
 #include <solitaire2/gamestate/gamedeck.hpp>
 #include <solitaire2/gamestate/tableau.hpp>
+#include <solitaire2/move_discovery.hpp>
 #include <solitaire2/moves.hpp>
 #include <solitaire2/prints.hpp>
 #include <solitaire2/version.hpp>
@@ -162,10 +163,20 @@ PYBIND11_MODULE(_core, module) {
     auto board = py::class_<solitaire2::BasicGameBoard>(module, "BasicGameBoard");
     board
         .def(py::init<bool, size_t>(), py::arg("shuffle") = true, py::arg("seed") = 0)
+        .def("reset", &solitaire2::BasicGameBoard::reset)
         .def("gamedeck", &solitaire2::BasicGameBoard::gamedeck, py::return_value_policy::reference_internal)
         .def("foundation", &solitaire2::BasicGameBoard::foundation, py::return_value_policy::reference_internal)
         .def("tableau", &solitaire2::BasicGameBoard::tableau, py::return_value_policy::reference_internal)
         .def("is_valid_move", &solitaire2::BasicGameBoard::is_valid_move<solitaire2::BasicMove>)
         .def("apply_move", &solitaire2::BasicGameBoard::apply_move<solitaire2::BasicMove>);
     add_printing(board);
+
+    module.def(
+        "all_valid_moves",
+        &solitaire2::all_valid_moves<solitaire2::BasicMove, solitaire2::BasicGameBoard>,
+        py::arg("board"));
+    module.def(
+        "all_valid_moves_packed",
+        &solitaire2::all_valid_moves<solitaire2::PackedMove, solitaire2::BasicGameBoard>,
+        py::arg("board"));
 }

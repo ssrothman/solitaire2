@@ -93,6 +93,8 @@ public:
         result.apply_move(move);
     }
 
+    void reset(size_t seed);
+
 private:
     void initialize_from_deck(Deck<CardType>& deck);
 

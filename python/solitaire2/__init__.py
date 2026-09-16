@@ -19,10 +19,13 @@ BasicMove = _core.BasicMove
 Suit = _core.Suit
 Rank = _core.Rank
 Location = _core.Location
+all_valid_moves = _core.all_valid_moves
+all_valid_moves_packed = _core.all_valid_moves_packed
 
 __all__ = [
 	"__version__", "BasicCard", "PackedCard", "Deck", "PackedCardDeck",
 	"BasicCardBasicGameDeck", "PackedCardBasicGameDeck",
 	"BasicCardBasicTableau", "PackedCardBasicTableau", "BasicFoundation",
 	"BasicGameBoard", "PackedMove", "BasicMove", "Suit", "Rank", "Location",
+	"all_valid_moves", "all_valid_moves_packed",
 ]
