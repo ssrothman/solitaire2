@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Callable, Sequence
+
 from .util import parseable_as_int
 
 def _game_tool(arguments: Sequence[str]) -> int:
     if len(arguments) == 1 and parseable_as_int(arguments[0]):
         seed = int(arguments[0])
-        from solitaire2.game import game_loop
-        game_loop(seed)
+        from .game import game_loop
+        return game_loop(seed)
     else:
         print("Useage: solitaire2 game <seed>")
         return 1

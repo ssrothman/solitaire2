@@ -1,6 +1,6 @@
 """Python package for the solitaire2 backend."""
 
-from . import _core
+from . import _core # pyright: ignore[reportMissingModuleSource]
 
 __version__ = _core.__version__
 

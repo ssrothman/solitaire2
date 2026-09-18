@@ -82,7 +82,28 @@ if(SOLITAIRE2_BUILD_PYTHON)
 	find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 	pybind11_add_module(solitaire2_python MODULE bindings/module.cpp)
 	target_link_libraries(solitaire2_python PRIVATE solitaire2::backend re2::re2)
+
 	set_target_properties(solitaire2_python PROPERTIES OUTPUT_NAME _core)
+	set(SOLITAIRE2_PYTHON_PACKAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/python/solitaire2")
+
+	file(REMOVE_RECURSE "${CMAKE_CURRENT_BINARY_DIR}/python")
+	file(MAKE_DIRECTORY "${SOLITAIRE2_PYTHON_PACKAGE_DIR}")
+	file(GLOB SOLITAIRE2_PYTHON_SOURCES CONFIGURE_DEPENDS
+		"${PROJECT_SOURCE_DIR}/python/solitaire2/*.py")
+		
+	foreach(SOLITAIRE2_PYTHON_SOURCE IN LISTS SOLITAIRE2_PYTHON_SOURCES)
+		get_filename_component(SOLITAIRE2_PYTHON_NAME
+			"${SOLITAIRE2_PYTHON_SOURCE}" NAME)
+		file(CREATE_LINK
+			"${SOLITAIRE2_PYTHON_SOURCE}"
+			"${SOLITAIRE2_PYTHON_PACKAGE_DIR}/${SOLITAIRE2_PYTHON_NAME}"
+			SYMBOLIC)
+	endforeach()
+
+	set_target_properties(solitaire2_python PROPERTIES
+		LIBRARY_OUTPUT_DIRECTORY "${SOLITAIRE2_PYTHON_PACKAGE_DIR}"
+		RUNTIME_OUTPUT_DIRECTORY "${SOLITAIRE2_PYTHON_PACKAGE_DIR}"
+	)
 endif()
 
 install(TARGETS solitaire2_backend solitaire2_cli solitaire2_perf solitaire2_profile

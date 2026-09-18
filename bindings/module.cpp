@@ -140,16 +140,24 @@ PYBIND11_MODULE(_core, module) {
         .value("Stock", solitaire2::Location::Stock)
         .value("Tableau", solitaire2::Location::Tableau)
         .value("Foundation", solitaire2::Location::Foundation);
+    py::enum_<solitaire2::MoveKind>(module, "MoveKind")
+        .value("WasteToStock", solitaire2::MoveKind::WasteToStock)
+        .value("StockToWaste", solitaire2::MoveKind::StockToWaste)
+        .value("WasteToTableau", solitaire2::MoveKind::WasteToTableau)
+        .value("WasteToFoundation", solitaire2::MoveKind::WasteToFoundation)
+        .value("TableauToTableau", solitaire2::MoveKind::TableauToTableau)
+        .value("TableauToFoundation", solitaire2::MoveKind::TableauToFoundation);
+
 
     bind_card<solitaire2::BasicCard>(module, "BasicCard");
     bind_card<solitaire2::PackedCard>(module, "PackedCard");
     bind_deck<solitaire2::BasicCard>(module, "Deck");
     bind_deck<solitaire2::PackedCard>(module, "PackedCardDeck");
+
     bind_game_deck<solitaire2::BasicCard>(module, "BasicCardBasicGameDeck");
     bind_game_deck<solitaire2::PackedCard>(module, "PackedCardBasicGameDeck");
     bind_tableau<solitaire2::BasicCard>(module, "BasicCardBasicTableau");
     bind_tableau<solitaire2::PackedCard>(module, "PackedCardBasicTableau");
-
     auto foundation = py::class_<solitaire2::BasicFoundation>(module, "BasicFoundation");
     foundation
         .def(py::init<>())

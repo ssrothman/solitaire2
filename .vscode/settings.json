@@ -32,5 +32,9 @@
     "cmake.revealLog": "always",
     "cmake.configureOnEdit": false,
     "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "cmake.configureOnOpen": false,
+    "python.analysis.extraPaths": [
+        "./python/solitaire2/"
+    ]
 }

@@ -2,7 +2,7 @@
 Play the game on the command line
 '''
 
-from solitaire2 import BasicGameBoard, all_valid_moves, BasicMove
+from . import BasicGameBoard, all_valid_moves, BasicMove
 from typing import Sequence, List
 from .util import parseable_as_int
 
